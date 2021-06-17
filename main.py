@@ -26,7 +26,8 @@ class Lecturer(Mentor):
         return f'Средний бал {round(self._overall_assessment / self._number_of_ratings, 1)}'
 
     def __str__(self):
-        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредний балл за лекции: {self.get_average_score()}'
+        return f'Имя: {self.name}\nФамилия: {self.surname}' \
+               f'\nСредний балл за лекции: {self.get_average_score()}'
 
     def __lt__(self, other):
         if isinstance(other, Student):
@@ -52,7 +53,8 @@ class Student(Lecturer):
 
     def rate_hw(self, lecturer, course, grade):
         if isinstance(lecturer,
-                      Lecturer) and course in lecturer.courses_attached and course in self.courses_in_progress:
+                      Lecturer) and course in lecturer.courses_attached \
+                and course in self.courses_in_progress:
             if course in lecturer.grades:
                 lecturer.grades[course] += [grade]
             else:
@@ -61,7 +63,10 @@ class Student(Lecturer):
             return 'Ошибка'
 
     def __str__(self):
-        return f'Имя: {self.name}\nФамилия: {self.surname}\nСредний балл за домашние задания: {self.get_average_score()}\nКурсы в процессе изучения: {", ".join(self.courses_in_progress)}\nЗавершенные курсы: {", ".join(self.finished_courses)}'
+        return f'Имя: {self.name}\nФамилия: {self.surname}' \
+               f'\nСредний балл за домашние задания: {self.get_average_score()}' \
+               f'\nКурсы в процессе изучения: {", ".join(self.courses_in_progress)}' \
+               f'\nЗавершенные курсы: {", ".join(self.finished_courses)}'
 
 
 class Reviewer(Mentor):
@@ -71,7 +76,8 @@ class Reviewer(Mentor):
         self.courses_attached = []
 
     def rate_hw(self, student, course, grade):
-        if isinstance(student, Student) and course in self.courses_attached and course in student.courses_in_progress:
+        if isinstance(student, Student) and course in self.courses_attached \
+                and course in student.courses_in_progress:
             if course in student.grades:
                 student.grades[course] += [grade]
             else:
@@ -87,7 +93,9 @@ def average_students_score(course, students):
         if course in student.courses_in_progress:
             total_balls += sum(student.grades[course])
             students_on_course += 1
-    return f'Курс: {course}\nКоличесво студентов на крусе: {students_on_course}\nСреднее количесвто баллов всех студентов по курсу: {round(total_balls / students_on_course, 1)}'
+    return f'Курс: {course}\nКоличесво студентов на крусе: {students_on_course}' \
+           f'\nСреднее количесвто баллов всех студентов по курсу: ' \
+           f'{round(total_balls / students_on_course, 1)}'
 
 
 def average_lecturers_score(course, lecturers):
@@ -97,7 +105,9 @@ def average_lecturers_score(course, lecturers):
         if course in lecturer.courses_attached:
             total_balls += sum(lecturer.grades[course])
             lecturers_on_course += 1
-    return f'Курс: {course}\nКоличесво лектров на крусе: {lecturers_on_course}\nСреднее количесвто баллов всех лекторов по курсу: {round(total_balls / lecturers_on_course, 1)}'
+    return f'Курс: {course}\nКоличесво лектров на крусе: {lecturers_on_course}' \
+           f'\nСреднее количесвто баллов всех лекторов по курсу: ' \
+           f'{round(total_balls / lecturers_on_course, 1)}'
 
 
 mentor = Mentor('kay', 'lop')
